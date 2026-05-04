@@ -1,0 +1,31 @@
+# --- 유니티 임시 및 생성 파일 (공유 불필요) ---
+/[Ll]ibrary/
+/[Tt]emp/
+/[Obj]/
+/[Build]/
+/[Builds]/
+/[Logs]/
+/[MemoryCaptures]/
+/[UserSettings]/
+
+# --- Visual Studio 관련 임시 파일 (.vsidx 포함) ---
+.vs/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.svd
+*.pdb
+*.opendb
+*.ide
+
+# --- OS 관련 파일 ---
+.DS_Store
+Thumbs.db
+
+# --- 빌드 결과물 및 패키지 ---
+*.apk
+*.unitypackage
+*.exe

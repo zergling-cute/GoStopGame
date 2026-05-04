@@ -1,31 +1,19 @@
-# --- 유니티 임시 및 생성 파일 (공유 불필요) ---
-/[Ll]ibrary/
-/[Tt]emp/
-/[Obj]/
-/[Build]/
-/[Builds]/
-/[Logs]/
-/[MemoryCaptures]/
-/[UserSettings]/
+# 유니티 임시 폴더들 (절대 깃허브에 올라가면 안 되는 것들)
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]serSettings/
+[Mm]emoryCaptures/
 
-# --- Visual Studio 관련 임시 파일 (.vsidx 포함) ---
-.vs/
-*.csproj
-*.sln
-*.suo
-*.user
-*.userprefs
-*.pidb
-*.svd
-*.pdb
-*.opendb
-*.ide
-
-# --- OS 관련 파일 ---
-.DS_Store
-Thumbs.db
-
-# --- 빌드 결과물 및 패키지 ---
+# 유니티 캐시 파일들
+sysinfo.txt
 *.apk
+*.aab
 *.unitypackage
-*.exe
+*.app
+
+# 크래시 덤프 파일들
+crashlytics-build.properties

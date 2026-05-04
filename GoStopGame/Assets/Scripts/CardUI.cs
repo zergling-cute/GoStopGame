@@ -19,8 +19,6 @@ public class CardUI : MonoBehaviour
     {
         backgroundImage = GetComponent<Image>();
         cardButton = GetComponent<Button>();
-
-        // 🚀 true를 넣어서 꺼져있거나 숨겨진 텍스트도 샅샅이 뒤져서 찾아냅니다!
         cardText = GetComponentInChildren<TextMeshProUGUI>(true);
         if (backgroundImage != null) defaultSprite = backgroundImage.sprite;
     }
@@ -28,9 +26,8 @@ public class CardUI : MonoBehaviour
     public void SetCard(HwatuCard card, bool isClickable, bool isHidden = false)
     {
         myCardInfo = card;
-
-        // 🚨 [진단 1] 게임이 시작되면 카드가 자기 '이름'을 바꿉니다! (하이어라키 창 확인용)
-        gameObject.name = $"카드_{card.month}월_{card.type}";
+        string detailName = GetCardDetailName(card.month, card.type); // 🚀 진짜 이름 찾기
+        gameObject.name = $"카드_{card.month}월_{detailName}";
 
         if (isHidden)
         {
@@ -44,10 +41,13 @@ public class CardUI : MonoBehaviour
             if (cardText != null)
             {
                 cardText.gameObject.SetActive(true);
-                cardText.text = $"{card.month}월\n{card.type}";
+                cardText.text = $"{card.month}월\n{detailName}"; // 🚀 청단, 쌍피 등 출력!
+
+                // 글자 색상 세팅 (쌍피는 보라색!)
                 if (card.type == CardType.광) cardText.color = Color.red;
+                else if (card.type == CardType.쌍피) cardText.color = new Color(0.6f, 0.1f, 0.8f);
                 else if (card.type == CardType.피) cardText.color = Color.black;
-                else cardText.color = Color.blue;
+                else cardText.color = new Color(0.1f, 0.4f, 0.8f); // 파란색
             }
             backgroundImage.sprite = defaultSprite;
             backgroundImage.color = Color.white;
@@ -61,12 +61,25 @@ public class CardUI : MonoBehaviour
         }
     }
 
-    void OnClickCard()
+    // ==========================================
+    // 🚀 [핵심] 카드의 진짜 족보 이름을 찾아주는 마법의 함수!
+    // ==========================================
+    string GetCardDetailName(int m, CardType t)
     {
-        // 🚨 [진단 2] 클릭이 먹히는지 확인용 콘솔 메시지!
-        Debug.Log($"[마우스 클릭 감지 성공!] {myCardInfo.month}월 카드를 눌렀습니다!");
-        GoStopManager.Instance.OnCardClicked(myCardInfo);
+        if (t == CardType.광) return (m == 12) ? "비광" : "광";
+        if (t == CardType.쌍피) return "쌍피";
+        if (t == CardType.열끝) return (m == 2 || m == 4 || m == 8) ? "고도리" : "열끝";
+        if (t == CardType.띠)
+        {
+            if (m == 1 || m == 2 || m == 3) return "홍단";
+            if (m == 6 || m == 9 || m == 10) return "청단";
+            if (m == 4 || m == 5 || m == 7) return "초단";
+            return "띠"; // 12월 비띠
+        }
+        return "피";
     }
+
+    void OnClickCard() { GoStopManager.Instance.OnCardClicked(myCardInfo); }
 
     public void ShowHighlightEffect() { StartCoroutine(HighlightRoutine()); }
     private IEnumerator HighlightRoutine()

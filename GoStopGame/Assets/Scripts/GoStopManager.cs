@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using System.Linq;
+using TMPro;
 
-public enum CardType : byte { 광, 열끝, 띠, 피 }
+// 🚀 1. 쌍피 타입이 추가되었습니다!
+public enum CardType : byte { 광, 열끝, 띠, 피, 쌍피 }
 
 [System.Serializable]
 public struct HwatuCard : INetworkSerializable
@@ -42,16 +44,16 @@ public class GoStopManager : NetworkBehaviour
     public Transform op1HandAreaUI; public Transform op1CapturedAreaUI;
     public Transform op2HandAreaUI; public Transform op2CapturedAreaUI;
 
-    // ==========================================
-    // 게임 상태 관리 변수들
-    // ==========================================
+    [Header("Score UI")]
+    public TextMeshProUGUI myScoreText;
+    public TextMeshProUGUI op1ScoreText;
+    public TextMeshProUGUI op2ScoreText;
+
     public bool isWaitingChoice = false;
     public ulong choosingPlayerId = 999;
     public int choiceMonth = -1;
     public HwatuCard pendingCard;
     public bool isDeckPhaseChoice = false;
-
-    // 🚀 [새로 추가됨] 연출이 진행되는 동안 아무도 클릭하지 못하게 막는 자물쇠
     public bool isProcessingTurn = false;
 
     public void StartGame()
@@ -60,16 +62,30 @@ public class GoStopManager : NetworkBehaviour
         InitializeDeck(); ShuffleDeck(); DealCardsFor3Players();
     }
 
+    // ==========================================
+    // 🚀 2. 진짜 고스톱 규격 48장 생성기! (가장 공들인 로직입니다)
+    // ==========================================
     void InitializeDeck()
     {
         deck.Clear();
+        int[] gwangMonths = { 1, 3, 8, 11, 12 };
+        int[] danMonths = { 1, 2, 3, 4, 5, 6, 7, 9, 10, 12 }; // 띠가 있는 월
+        int[] yeolMonths = { 2, 4, 5, 6, 7, 8, 9, 10, 12 }; // 열끝이 있는 월
+        int[] ssangpiMonths = { 11, 12 }; // 오동(똥)과 비에는 쌍피가 있죠!
+
         for (int m = 1; m <= 12; m++)
         {
-            CardType first = (m == 1 || m == 3 || m == 8 || m == 11 || m == 12) ? CardType.광 : CardType.피;
-            deck.Add(new HwatuCard(m, first, 1)); deck.Add(new HwatuCard(m, CardType.열끝, 2));
-            deck.Add(new HwatuCard(m, CardType.띠, 3)); deck.Add(new HwatuCard(m, CardType.피, 4));
+            int id = 1;
+            if (gwangMonths.Contains(m)) deck.Add(new HwatuCard(m, CardType.광, id++));
+            if (yeolMonths.Contains(m)) deck.Add(new HwatuCard(m, CardType.열끝, id++));
+            if (danMonths.Contains(m)) deck.Add(new HwatuCard(m, CardType.띠, id++));
+            if (ssangpiMonths.Contains(m)) deck.Add(new HwatuCard(m, CardType.쌍피, id++));
+
+            // 남는 자리는 전부 평범한 '피'로 꽉꽉 4장까지 채웁니다.
+            while (id <= 4) deck.Add(new HwatuCard(m, CardType.피, id++));
         }
     }
+
     void ShuffleDeck()
     {
         for (int i = 0; i < deck.Count; i++)
@@ -84,7 +100,6 @@ public class GoStopManager : NetworkBehaviour
         player1Captured.Clear(); player2Captured.Clear(); player3Captured.Clear();
         DrawCards(player1Hand, 7); DrawCards(player2Hand, 7); DrawCards(player3Hand, 7); DrawCards(fieldCards, 6);
         player1Hand = player1Hand.OrderBy(c => c.month).ToList(); player2Hand = player2Hand.OrderBy(c => c.month).ToList(); player3Hand = player3Hand.OrderBy(c => c.month).ToList();
-
         SyncState();
     }
     void DrawCards(List<HwatuCard> target, int count)
@@ -95,35 +110,22 @@ public class GoStopManager : NetworkBehaviour
     public void OnCardClicked(HwatuCard clickedCard)
     {
         ulong myId = NetworkManager.Singleton.LocalClientId;
-        // 자물쇠가 걸려있으면 클릭 무시!
         if (isProcessingTurn) return;
 
-        if (isWaitingChoice && choosingPlayerId == myId)
-        {
-            ChooseBoardCardServerRpc(clickedCard, myId);
-        }
-        else if (!isWaitingChoice)
-        {
-            PlayCardServerRpc(clickedCard, myId);
-        }
+        if (isWaitingChoice && choosingPlayerId == myId) ChooseBoardCardServerRpc(clickedCard, myId);
+        else if (!isWaitingChoice) PlayCardServerRpc(clickedCard, myId);
     }
-
-    // ==========================================
-    // 🚀 여기서부터 타이밍을 조절하는 '코루틴' 마법이 시작됩니다!
-    // ==========================================
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void PlayCardServerRpc(HwatuCard cardToPlay, ulong clientId)
     {
         if (isProcessingTurn) return;
-        isProcessingTurn = true; // 자물쇠 잠그기
+        isProcessingTurn = true;
 
-        // 1. 손패에서 지우기
         if (clientId == 0) player1Hand.RemoveAll(c => c.month == cardToPlay.month && c.id == cardToPlay.id);
         else if (clientId == 1) player2Hand.RemoveAll(c => c.month == cardToPlay.month && c.id == cardToPlay.id);
         else if (clientId == 2) player3Hand.RemoveAll(c => c.month == cardToPlay.month && c.id == cardToPlay.id);
 
-        // 2. 코루틴 출발!
         StartCoroutine(PlayTurnRoutine(cardToPlay, clientId));
     }
 
@@ -131,33 +133,28 @@ public class GoStopManager : NetworkBehaviour
     {
         fieldCards.Add(cardToPlay);
         SyncState();
-        yield return new WaitForSeconds(0.6f); // 0.6초 대기
+        yield return new WaitForSeconds(0.6f);
 
         fieldCards.Remove(cardToPlay);
         List<HwatuCard> matches = fieldCards.Where(c => c.month == cardToPlay.month).ToList();
 
-        if (matches.Count == 2) { /* 기존 선택 로직 유지 */ }
+        if (matches.Count == 2)
+        {
+            isWaitingChoice = true; choosingPlayerId = clientId; choiceMonth = cardToPlay.month;
+            pendingCard = cardToPlay; isDeckPhaseChoice = false;
+            isProcessingTurn = false;
+            SyncState();
+            yield break;
+        }
 
-        // ==========================================
-        // 🚀 [추가됨] 짝이 맞았을 때 강조 연출!
-        // ==========================================
         if (matches.Count > 0)
         {
-            // 방금 바닥에 깔린 카드를 포함해서, 같은 월인 애들을 찾아 번쩍이게 합니다.
-            fieldCards.Add(cardToPlay); // 연출을 위해 잠깐 바닥에 다시 둡니다.
+            fieldCards.Add(cardToPlay);
             SyncState();
-
-            // 화면에 깔린 카드 UI들을 다 뒤져서 같은 월인 애들을 번쩍이게 합니다.
-            CardUI[] allBoardCards = fieldAreaUI.GetComponentsInChildren<CardUI>();
-            foreach (CardUI ui in allBoardCards)
-            {
-                if (ui.myCardInfo.month == cardToPlay.month) ui.ShowHighlightEffect();
-            }
-
-            fieldCards.Remove(cardToPlay); // 연출 끝났으니 다시 뺌
-            yield return new WaitForSeconds(0.4f); // 번쩍이는 거 볼 시간 주기!
+            ShowHighlightClientRpc(cardToPlay.month);
+            fieldCards.Remove(cardToPlay);
+            yield return new WaitForSeconds(0.4f);
         }
-        // ==========================================
 
         ResolveMatch(cardToPlay, matches, clientId);
         SyncState();
@@ -172,7 +169,7 @@ public class GoStopManager : NetworkBehaviour
         if (!isWaitingChoice || choosingPlayerId != clientId || chosenCard.month != choiceMonth) return;
 
         isWaitingChoice = false;
-        isProcessingTurn = true; // 다시 연출 시작이니 자물쇠 잠그기
+        isProcessingTurn = true;
 
         fieldCards.RemoveAll(c => c.month == chosenCard.month && c.id == chosenCard.id);
         AddCapture(clientId, pendingCard); AddCapture(clientId, chosenCard);
@@ -180,7 +177,7 @@ public class GoStopManager : NetworkBehaviour
         SyncState();
 
         if (!isDeckPhaseChoice) StartCoroutine(DrawDeckRoutine(clientId));
-        else { isProcessingTurn = false; SyncState(); } // 완전 종료
+        else { isProcessingTurn = false; SyncState(); }
     }
 
     IEnumerator DrawDeckRoutine(ulong clientId)
@@ -199,26 +196,23 @@ public class GoStopManager : NetworkBehaviour
         fieldCards.Remove(drawnCard);
         List<HwatuCard> matches = fieldCards.Where(c => c.month == drawnCard.month).ToList();
 
-        if (matches.Count == 2) { /* 기존 선택 로직 유지 */ }
+        if (matches.Count == 2)
+        {
+            isWaitingChoice = true; choosingPlayerId = clientId; choiceMonth = drawnCard.month;
+            pendingCard = drawnCard; isDeckPhaseChoice = true;
+            isProcessingTurn = false;
+            SyncState();
+            yield break;
+        }
 
-        // ==========================================
-        // 🚀 [추가됨] 덱에서 깠는데 짝이 맞았을 때 강조 연출!
-        // ==========================================
         if (matches.Count > 0)
         {
             fieldCards.Add(drawnCard);
             SyncState();
-
-            CardUI[] allBoardCards = fieldAreaUI.GetComponentsInChildren<CardUI>();
-            foreach (CardUI ui in allBoardCards)
-            {
-                if (ui.myCardInfo.month == drawnCard.month) ui.ShowHighlightEffect();
-            }
-
+            ShowHighlightClientRpc(drawnCard.month);
             fieldCards.Remove(drawnCard);
             yield return new WaitForSeconds(0.4f);
         }
-        // ==========================================
 
         ResolveMatch(drawnCard, matches, clientId);
         isProcessingTurn = false;
@@ -240,17 +234,24 @@ public class GoStopManager : NetworkBehaviour
         if (clientId == 0) player1Captured.Add(card); else if (clientId == 1) player2Captured.Add(card); else if (clientId == 2) player3Captured.Add(card);
     }
 
-    // ==========================================
-    // 상태 동기화 및 UI
-    // ==========================================
     void SyncState()
     {
         UpdateUI();
         UpdateGameStateClientRpc(
             player1Hand.ToArray(), player2Hand.ToArray(), player3Hand.ToArray(), fieldCards.ToArray(),
             player1Captured.ToArray(), player2Captured.ToArray(), player3Captured.ToArray(),
-            isWaitingChoice, choosingPlayerId, choiceMonth, isProcessingTurn // 🚀 통신 데이터에 자물쇠 상태 추가
+            isWaitingChoice, choosingPlayerId, choiceMonth, isProcessingTurn
         );
+    }
+
+    [ClientRpc]
+    void ShowHighlightClientRpc(int targetMonth)
+    {
+        CardUI[] allBoardCards = fieldAreaUI.GetComponentsInChildren<CardUI>();
+        foreach (CardUI ui in allBoardCards)
+        {
+            if (ui.myCardInfo.month == targetMonth) ui.ShowHighlightEffect();
+        }
     }
 
     [ClientRpc]
@@ -270,13 +271,13 @@ public class GoStopManager : NetworkBehaviour
 
     void UpdateUI()
     {
-        foreach (Transform child in fieldAreaUI) Destroy(child.gameObject);
-        foreach (Transform child in myHandAreaUI) Destroy(child.gameObject);
-        foreach (Transform child in myCapturedAreaUI) Destroy(child.gameObject);
-        foreach (Transform child in op1HandAreaUI) Destroy(child.gameObject);
-        foreach (Transform child in op1CapturedAreaUI) Destroy(child.gameObject);
-        foreach (Transform child in op2HandAreaUI) Destroy(child.gameObject);
-        foreach (Transform child in op2CapturedAreaUI) Destroy(child.gameObject);
+        ClearOnlyCards(fieldAreaUI);
+        ClearOnlyCards(myHandAreaUI);
+        ClearOnlyCards(myCapturedAreaUI);
+        ClearOnlyCards(op1HandAreaUI);
+        ClearOnlyCards(op1CapturedAreaUI);
+        ClearOnlyCards(op2HandAreaUI);
+        ClearOnlyCards(op2CapturedAreaUI);
 
         ulong myId = NetworkManager.Singleton.LocalClientId;
         List<HwatuCard> myHand = null, op1Hand = null, op2Hand = null;
@@ -287,12 +288,9 @@ public class GoStopManager : NetworkBehaviour
         else { myHand = player3Hand; op1Hand = player1Hand; op2Hand = player2Hand; myCap = player3Captured; op1Cap = player1Captured; op2Cap = player2Captured; }
 
         bool isMyChoiceTurn = (isWaitingChoice && choosingPlayerId == myId);
-
-        // 🚀 카드가 날아다니는 동안(isProcessingTurn == true)에는 내 손패도 누를 수 없게 막습니다!
         bool canClickHand = (!isWaitingChoice && !isProcessingTurn);
 
         SpawnCards(myHand, myHandAreaUI, isClickable: canClickHand, isHidden: false);
-        SpawnCards(myCap, myCapturedAreaUI, isClickable: false, isHidden: false);
 
         foreach (var card in fieldCards)
         {
@@ -302,9 +300,32 @@ public class GoStopManager : NetworkBehaviour
         }
 
         SpawnCards(op1Hand, op1HandAreaUI, isClickable: false, isHidden: true);
-        SpawnCards(op1Cap, op1CapturedAreaUI, isClickable: false, isHidden: false);
         SpawnCards(op2Hand, op2HandAreaUI, isClickable: false, isHidden: true);
-        SpawnCards(op2Cap, op2CapturedAreaUI, isClickable: false, isHidden: false);
+
+        SpawnCapturedCards(myCap, myCapturedAreaUI);
+        SpawnCapturedCards(op1Cap, op1CapturedAreaUI);
+        SpawnCapturedCards(op2Cap, op2CapturedAreaUI);
+
+        // 🚀 [여기 추가!] UI가 업데이트될 때마다 내 점수 계산해서 콘솔창에 띄우기!
+        // ==========================================
+        int myScore = CalculateScore(myCap);
+        int op1Score = CalculateScore(op1Cap);
+        int op2Score = CalculateScore(op2Cap);
+
+        if (myScoreText != null) myScoreText.text = $"내 점수: {myScore}점";
+        if (op1ScoreText != null) op1ScoreText.text = $"점수: {op1Score}점";
+        if (op2ScoreText != null) op2ScoreText.text = $"점수: {op2Score}점";
+
+    }
+
+    void ClearOnlyCards(Transform targetArea)
+    {
+        if (targetArea == null) return;
+        CardUI[] cards = targetArea.GetComponentsInChildren<CardUI>();
+        foreach (CardUI card in cards)
+        {
+            Destroy(card.gameObject);
+        }
     }
 
     void SpawnCards(List<HwatuCard> cards, Transform parentUI, bool isClickable, bool isHidden)
@@ -315,4 +336,71 @@ public class GoStopManager : NetworkBehaviour
             obj.GetComponent<CardUI>().SetCard(card, isClickable, isHidden);
         }
     }
+
+    void SpawnCapturedCards(List<HwatuCard> capCards, Transform capAreaUI)
+    {
+        if (capAreaUI == null) return;
+
+        Transform rowGwang = capAreaUI.Find("Row_Gwang") ?? capAreaUI;
+        Transform rowDan = capAreaUI.Find("Row_Dan") ?? capAreaUI;
+        Transform rowPi = capAreaUI.Find("Row_Pi") ?? capAreaUI;
+
+        foreach (var card in capCards)
+        {
+            Transform targetRow = rowPi;
+
+            if (card.type == CardType.광 || card.type == CardType.열끝) targetRow = rowGwang;
+            else if (card.type == CardType.띠) targetRow = rowDan;
+            // 🚀 3. 피와 '쌍피'는 모두 아랫줄로 꽂아줍니다!
+
+            GameObject obj = Instantiate(cardPrefab, targetRow);
+            obj.GetComponent<CardUI>().SetCard(card, isClickable: false, isHidden: false);
+        }
+    }
+
+    // 🚀 [새로 추가됨] 고스톱 점수 자동 계산기!
+    // ==========================================
+    public int CalculateScore(List<HwatuCard> capCards)
+    {
+        if (capCards == null || capCards.Count == 0) return 0;
+        int score = 0;
+
+        // 🎴 1. 광(Gwang) 점수 계산
+        var gwangs = capCards.Where(c => c.type == CardType.광).ToList();
+        int gwangCount = gwangs.Count;
+        bool hasBiGwang = gwangs.Any(c => c.month == 12); // 비광 포함 여부
+
+        if (gwangCount == 5) score += 15; // 오광
+        else if (gwangCount == 4) score += 4; // 사광
+        else if (gwangCount == 3) score += hasBiGwang ? 2 : 3; // 비삼광은 2점, 그냥 삼광은 3점
+
+        // 🎴 2. 단(띠) 점수 계산
+        var dans = capCards.Where(c => c.type == CardType.띠).ToList();
+        if (dans.Count >= 5) score += (dans.Count - 4); // 띠 5장부터 1점, 이후 1장당 1점 추가
+
+        int hongdan = dans.Count(c => c.month == 1 || c.month == 2 || c.month == 3);
+        int cheongdan = dans.Count(c => c.month == 6 || c.month == 9 || c.month == 10);
+        int chodan = dans.Count(c => c.month == 4 || c.month == 5 || c.month == 7);
+
+        if (hongdan == 3) score += 3; // 홍단
+        if (cheongdan == 3) score += 3; // 청단
+        if (chodan == 3) score += 3; // 초단
+
+        // 🎴 3. 열끝(멍텅구리) 점수 계산
+        var yeols = capCards.Where(c => c.type == CardType.열끝).ToList();
+        if (yeols.Count >= 5) score += (yeols.Count - 4); // 열끝 5장부터 1점, 이후 1장당 1점 추가
+
+        int godori = yeols.Count(c => c.month == 2 || c.month == 4 || c.month == 8);
+        if (godori == 3) score += 5; // 고도리 (새 5마리)
+
+        // 🎴 4. 피 점수 계산 (쌍피는 2장으로 계산!)
+        int piCount = capCards.Count(c => c.type == CardType.피);
+        int ssangpiCount = capCards.Count(c => c.type == CardType.쌍피);
+        int totalPi = piCount + (ssangpiCount * 2); // 쌍피는 곱하기 2!
+
+        if (totalPi >= 10) score += (totalPi - 9); // 피 10장부터 1점, 이후 1장당 1점 추가
+
+        return score;
+    }
+
 }

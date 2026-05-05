@@ -1,12 +1,53 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\kangg\\documents\\github\\gostopgame\\gostopgame\\assets\\scripts\\gostopmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gostopmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\kangg\\documents\\github\\gostopgame\\gostopgame\\assets\\scripts\\cardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CardUI.cs",
+              "DocumentMoniker": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\CardUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardUI.cs",
+              "ToolTip": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\CardUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T17:32:44.933Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GoStopManager.cs",
+              "DocumentMoniker": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GoStopManager.cs",
+              "ToolTip": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GoStopManager.cs",
+              "ViewState": "AgIAADABAAAAAAAAAADwv0kBAACaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T17:05:37.92Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -26,11 +26,11 @@ MonoBehaviour:
       - BestMargin
     - QuestionId: NetcodeArchitecture
       Answers:
-      - NoNetcode
+      - ClientServer
     - QuestionId: PlayerCount
       Answers:
       - 4
   Preset: 4
   SelectedSolutions:
-    SelectedHostingModel: 3
-    SelectedNetcodeSolution: 4
+    SelectedHostingModel: 1
+    SelectedNetcodeSolution: 1

@@ -192,4 +192,50 @@ public class MultiplayerLobbyManager : NetworkBehaviour
             NetworkManager.Singleton.SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
         }
     }
+
+    public async void LeaveRoom()
+    {
+        try
+        {
+            // 1. 서버(방장)인 경우: 방을 폭파하고 모든 손님을 내보냄
+            if (IsServer)
+            {
+                Debug.Log("방장이 방을 나갑니다. 방을 해체합니다.");
+
+                // 로비 서비스에서 방 삭제 (목록에서 제거)
+                if (_hostLobby != null)
+                {
+                    await LobbyService.Instance.DeleteLobbyAsync(_hostLobby.Id);
+                    _hostLobby = null;
+                }
+
+                // 모든 클라이언트의 연결을 끊고 서버 종료
+                NetworkManager.Singleton.Shutdown();
+            }
+            // 2. 클라이언트(손님)인 경우: 나만 조용히 나감
+            else
+            {
+                Debug.Log("방을 나갑니다.");
+
+                if (_hostLobby != null)
+                {
+                    // 로비에서 나 자신을 제거
+                    await LobbyService.Instance.RemovePlayerAsync(_hostLobby.Id, AuthenticationService.Instance.PlayerId);
+                }
+
+                // 내 연결만 끊기
+                NetworkManager.Singleton.Shutdown();
+            }
+
+            // 3. UI를 다시 메인 로비 화면으로 전환
+            ShowPanel(panelMainLobby);
+
+            // 🚀 만약 게임 씬에 있었다면 메인 씬으로 이동시키는 코드 (선택 사항)
+            // UnityEngine.SceneManagement.SceneManager.LoadScene("LobbyScene");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"방 나가기 실패: {e.Message}");
+        }
+    }
 }

@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 112}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 69
+  controlID: 10512
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 112}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 26
+  controlID: 10488
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -1155,9 +1155,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.13915865, y: 0.052554727, z: -0.0073959385, w: -0.9888493}
   m_Size:
-    m_Target: 295.90308
+    m_Target: 1101.4536
     speed: 2
-    m_Value: 295.90308
+    m_Value: 1101.4536
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1236,7 +1236,15 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
+      - m_Data: -69910
+      - m_Data: -69512
+      - m_Data: -68804
+      - m_Data: -68764
+      - m_Data: -9690
+      - m_Data: -8442
+      - m_Data: -6318
       - m_Data: -1300
+      - m_Data: 60836
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1332,11 +1340,12 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 61180
-    - m_Data: 61182
-    - m_Data: 61184
-    - m_Data: 61186
-    - m_Data: 61188
+    - m_Data: 61156
+    - m_Data: 61158
+    - m_Data: 61160
+    - m_Data: 61162
+    - m_Data: 61164
+    - m_Data: 61166
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1364,17 +1373,17 @@ MonoBehaviour:
       m_ResourceFile: 
   m_AssetTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs:
-    - m_Data: 60470
+    m_SelectedIDs: []
     m_LastClickedID:
-      m_Data: 60470
+      m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 61180
-    - m_Data: 61182
-    - m_Data: 61184
-    - m_Data: 61186
-    - m_Data: 61188
+    - m_Data: 61156
+    - m_Data: 61158
+    - m_Data: 61160
+    - m_Data: 61162
+    - m_Data: 61164
+    - m_Data: 61166
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1392,7 +1401,7 @@ MonoBehaviour:
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
-      m_ClientGUIView: {fileID: 10}
+      m_ClientGUIView: {fileID: 11}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -1401,9 +1410,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs:
-    - m_Data: 60470
-    m_LastClickedInstanceID: 60470
+    m_SelectedInstanceIDs: []
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: []
     m_RenameOverlay:

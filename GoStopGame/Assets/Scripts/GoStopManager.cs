@@ -53,6 +53,16 @@ public class GoStopManager : NetworkBehaviour
     public HwatuCard handTargetCard; public bool hasHandTarget = false;
     public HwatuCard deckTargetCard; public bool hasDeckTarget = false;
 
+
+    private void Start()
+    {
+        // 🚀 [추가] 씬이 시작되자마자 방장(서버) 권한 확인 후 게임 시작!
+        if (IsServer)
+        {
+            Debug.Log("서버: 씬 로드 완료. 게임을 시작합니다!");
+            StartGame();
+        }
+    }
     public void StartGame()
     {
         if (!IsServer) return;

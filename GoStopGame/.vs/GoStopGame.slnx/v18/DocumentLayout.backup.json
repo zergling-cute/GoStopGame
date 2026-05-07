@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\kangg\\documents\\github\\gostopgame\\gostopgame\\assets\\scripts\\gostopmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gostopmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\GoStopManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\kangg\\documents\\github\\gostopgame\\gostopgame\\assets\\scripts\\cardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -40,9 +40,9 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GoStopManager.cs",
               "ToolTip": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GoStopManager.cs",
-              "ViewState": "AgIAADABAAAAAAAAAADwv0kBAACaAAAAAAAAAA==",
+              "ViewState": "AgIAAHMBAAAAAAAAAADwv58BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T17:05:37.92Z",
+              "WhenOpened": "2026-05-05T18:24:42.714Z",
               "EditorCaption": ""
             }
           ]

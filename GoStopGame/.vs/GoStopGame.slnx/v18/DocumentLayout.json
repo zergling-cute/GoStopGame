@@ -1,13 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\",
+  "WorkspaceRootPath": "C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\GoStopManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\MultiplayerLobbyManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\MultiplayerLobbyManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\kangg\\documents\\github\\gostopgame\\gostopgame\\assets\\scripts\\cardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\kangg\\onedrive\\\uBB38\uC11C\\github\\gostopgame\\gostopgame\\assets\\scripts\\gostopmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gostopmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\kangg\\onedrive\\\uBB38\uC11C\\github\\gostopgame\\gostopgame\\assets\\scripts\\cardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -18,15 +22,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CardUI.cs",
-              "DocumentMoniker": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\CardUI.cs",
+              "DocumentMoniker": "C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\CardUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CardUI.cs",
-              "ToolTip": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\CardUI.cs",
+              "ToolTip": "C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\CardUI.cs",
               "RelativeToolTip": "Assets\\Scripts\\CardUI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -34,15 +38,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "GoStopManager.cs",
-              "DocumentMoniker": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs",
+              "DocumentMoniker": "C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GoStopManager.cs",
-              "ToolTip": "C:\\Users\\kangg\\Documents\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs",
+              "ToolTip": "C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\GoStopManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GoStopManager.cs",
-              "ViewState": "AgIAAHMBAAAAAAAAAADwv58BAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAKkBAAAAAAAAAAAAAEAAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T18:24:42.714Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MultiplayerLobbyManager.cs",
+              "DocumentMoniker": "C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\MultiplayerLobbyManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MultiplayerLobbyManager.cs",
+              "ToolTip": "C:\\Users\\kangg\\OneDrive\\\uBB38\uC11C\\GitHub\\GoStopGame\\GoStopGame\\Assets\\Scripts\\MultiplayerLobbyManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MultiplayerLobbyManager.cs",
+              "ViewState": "AgIAALgAAAAAAAAAAAAkwOgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T00:41:28.064Z",
               "EditorCaption": ""
             }
           ]
